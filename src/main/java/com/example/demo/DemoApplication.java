@@ -19,7 +19,8 @@ public class DemoApplication {
 class HomeController {
 
     @GetMapping("/")
-    public String test() {
-        return "test";
+    public void test() {
+        CalculatorView calculatorView = new CalculatorView();
+        calculatorView.init(null);
     }
 }

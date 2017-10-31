@@ -2,13 +2,14 @@ package com.example.demo;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 
 /**
  * Created by i on 01.10.2017.
  */
 
-//@SpringUI
+@SpringUI
 @Theme("myStyles")
 //@SpringBootApplication
 public class CalculatorView extends UI {
@@ -177,16 +178,8 @@ public class CalculatorView extends UI {
     }
 
     private void readEntry(char entry) {
-        if (entry == '+' || entry == '-' || entry == '*' || entry == '/'
-                || entry == 's') {
-            sign = entry;
-            return;
-        }
 
-        if (entry == '.' && (stringElement.length() == 0 || stringElement.indexOf("0", 0) == 0)) {
-            if (stringElement.indexOf("0", 0) == 0) {
-                stringElement.deleteCharAt(0);
-            }
+        if (entry == '.' && stringElement.length() == 0) {
             stringElement.append("0.");
             displayField.setValue("0.");
             return;
@@ -202,13 +195,27 @@ public class CalculatorView extends UI {
             }
             stringElement.deleteCharAt(stringElement.length() - 1);
             displayField.setValue(String.valueOf(stringElement));
-            if (stringElement.length() == 0) {
+            if (stringElement.length() == 0 || (stringElement.length() == 1 && stringElement.indexOf("-", 0) == 0)) {
                 displayField.setValue("0");
+                if (stringElement.length() == 1) {
+                    stringElement.delete(0, 1);
+                }
             }
             return;
         }
 
-        if (stringElement.length() == 1 && stringElement.indexOf("0", 0) == 0) {
+        if (entry == 's') {
+            if (stringElement.length() == 0) {
+                return;
+            }
+            Double value = Double.valueOf(stringElement.toString()) * -1;
+            stringElement.delete(0, stringElement.length());
+            stringElement.append(String.valueOf(value));
+            displayField.setValue(String.valueOf(stringElement));
+            return;
+        }
+
+        if (stringElement.length() == 1 && stringElement.indexOf("0", 0) == 0 && entry != '.') {
             stringElement.deleteCharAt(0);
         }
 
