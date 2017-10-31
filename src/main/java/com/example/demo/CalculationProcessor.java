@@ -6,6 +6,7 @@ package com.example.demo;
 public class CalculationProcessor {
 
     public static final String ERR_MESSAGE = "Unexpected error!";
+    public static final String ZERO_DIVISION_MESSAGE = "Error! Division by zero!";
 
     public static String calculate(Double firstNumber, Double secondNumber, char actionSign) {
 
@@ -22,7 +23,7 @@ public class CalculationProcessor {
                 return String.valueOf(firstNumber * secondNumber);
             case '/':
                 if (secondNumber == 0d) {
-                    return "Error! Division by zero!";
+                    return ZERO_DIVISION_MESSAGE;
                 }
                 return String.valueOf(firstNumber / secondNumber);
         }
