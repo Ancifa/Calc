@@ -25,13 +25,22 @@ public class CalculatorView extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         stringElement = new StringBuilder();
+        setPollInterval(500);
         buildLayout();
     }
 
     private void buildLayout() {
+        VerticalLayout mainLayout = new VerticalLayout();
+
         VerticalLayout layout = new VerticalLayout();
         layout.setWidth(297, Unit.PIXELS);
         layout.addStyleName("layout-border");
+
+        VerticalLayout layout2 = new VerticalLayout();
+        layout2.setWidth(320, Unit.PIXELS);
+        layout2.addStyleName("layout-border");
+        Timer timer = new Timer();
+        layout2.addComponent(timer.buildLayout());
 
         HorizontalLayout displayRow = buildDisplayLayout();
         HorizontalLayout firstDigitsRow = buildFirstDigitsRow();
@@ -43,7 +52,8 @@ public class CalculatorView extends UI {
         layout.addComponents(displayRow, firstDigitsRow, secondDigitsRow,
                 thirdDigitsRow, fourthDigitsRow, fifthSignsRow);
 
-        setContent(layout);
+        mainLayout.addComponents(layout, layout2);
+        setContent(mainLayout);
     }
 
     private HorizontalLayout buildDisplayLayout() {
